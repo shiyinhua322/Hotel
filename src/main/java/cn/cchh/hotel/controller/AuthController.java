@@ -3,6 +3,7 @@ package cn.cchh.hotel.controller;
 import cn.cchh.hotel.dto.Result;
 import cn.cchh.hotel.dto.LoginDTO;
 import cn.cchh.hotel.dto.RegisterDTO;
+import cn.cchh.hotel.entity.User;
 import cn.cchh.hotel.service.UserService;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,17 @@ public class AuthController {
     @PostMapping("/login")
     public Result login(@Validated @RequestBody LoginDTO loginDTO) {
         try {
-            String token = userService.login(loginDTO);
-            Map<String,String> map = new HashMap<>();
-            map.put("username",loginDTO.getUsername());
-            map.put("token",StpUtil.getTokenValue());
-            return Result.success("登录成功",map);
-        } catch (Exception e) {
+            User user = userService.login(loginDTO);
+            if (user != null) {
+                Map<String, String> map = new HashMap<>();
+                map.put("userId", (user.getId()).toString());
+                map.put("username", loginDTO.getUsername());
+                map.put("token", StpUtil.getTokenValue());
+                return Result.success("登录成功", map);
+            } else {
+                return Result.error("用户不存在");
+            }
+        } catch (Exception e){
             return Result.error(e.getMessage());
         }
     }
