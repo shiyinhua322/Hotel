@@ -1,8 +1,8 @@
 package cn.cchh.hotel.controller;
 
-import cn.cchh.hotel.entity.dto.Result;
-import cn.cchh.hotel.entity.dto.LoginDTO;
-import cn.cchh.hotel.entity.dto.RegisterDTO;
+import cn.cchh.hotel.dto.Result;
+import cn.cchh.hotel.dto.LoginDTO;
+import cn.cchh.hotel.dto.RegisterDTO;
 import cn.cchh.hotel.service.UserService;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.beans.factory.annotation.Autowired;

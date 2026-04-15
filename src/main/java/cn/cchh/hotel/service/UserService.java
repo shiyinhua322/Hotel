@@ -1,7 +1,7 @@
 package cn.cchh.hotel.service;
 
-import cn.cchh.hotel.entity.dto.LoginDTO;
-import cn.cchh.hotel.entity.dto.RegisterDTO;
+import cn.cchh.hotel.dto.LoginDTO;
+import cn.cchh.hotel.dto.RegisterDTO;
 import cn.cchh.hotel.entity.User;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;

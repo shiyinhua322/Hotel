@@ -1,4 +1,4 @@
-package cn.cchh.hotel.entity.dto;
+package cn.cchh.hotel.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
