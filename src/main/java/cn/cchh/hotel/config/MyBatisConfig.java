@@ -1,4 +1,4 @@
-package cn.xt.sup.config;
+package cn.cchh.hotel.config;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import
@@ -7,7 +7,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 @Configuration
-@MapperScan("cn.xt.sup.mapper")
+@MapperScan("cn.cchh.hotel.mapper")
 public class MyBatisConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {

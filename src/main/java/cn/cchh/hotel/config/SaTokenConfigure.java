@@ -1,4 +1,4 @@
-package cn.xt.sup.config;
+package cn.cchh.hotel.config;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
@@ -22,16 +22,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/auth/login",
                         "/auth/register",
-                        "/error",
-                        "/ShoppingRecord/ShoppingRecordPage",
-                        "/images/**",           // 放行图片资源
-                        "/static/**",           // 放行静态资源
-                        "/*.jpg",               // 放行根目录下的jpg文件
-                        "/*.png",               // 放行根目录下的png文件
-                        "/*.gif",               // 放行根目录下的gif文件
-                        "/*.jpeg",              // 放行根目录下的jpeg文件
-                        "/*.webp" ,              // 放行根目录下的webp文件
-                        "/user/test"
+                        "/error"
                 );
     }
 }

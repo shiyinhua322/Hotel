@@ -1,4 +1,4 @@
-package cn.xt.sup.config;
+package cn.cchh.hotel.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
