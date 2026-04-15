@@ -42,13 +42,6 @@ public interface UserService extends IService<User> {
     Page<User> getUserNamePage(int current, int size,String username);
 
     /**
-     * 根据ID获取用户信息
-     * @param id 用户ID
-     * @return 用户对象
-     */
-    User getUserById(Long id);
-
-    /**
      * 获取用户信息修改状态
      * @param user 用户对象
      * @return
@@ -60,23 +53,5 @@ public interface UserService extends IService<User> {
      * @param password 用户对象
      * @return
      */
-    boolean updateUserPassword(long id,String password);
 
-    /**
-     * 获取删除用户状态--逻辑删除
-     * @param id 索引id
-     * @return
-     */
-    boolean deleteUser(Long id);
-    /**
-     * 获取修改用户删除状态--业务删除
-     * @param id 索引id
-     * @return
-     */
-    boolean updateUserDeleted(Long id);
-
-    /**
-     * 支付商品
-     */
-    boolean updateUserMoney(Long id,double money);
 }

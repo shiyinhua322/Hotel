@@ -22,7 +22,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/auth/login",
                         "/auth/register",
-                        "/error34"
+                        "/error"
                 );
     }
 }
