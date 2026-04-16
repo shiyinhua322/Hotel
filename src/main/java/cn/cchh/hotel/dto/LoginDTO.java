@@ -17,4 +17,5 @@ public class LoginDTO {
 
     @NotBlank(message = "用户身份不能为空")
     private String identity;
+    1
 }

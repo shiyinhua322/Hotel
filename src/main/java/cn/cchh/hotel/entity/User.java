@@ -39,4 +39,5 @@ public class User {
     private Date updateTime;
 
     private int deleted;
+
 }
