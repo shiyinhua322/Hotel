@@ -107,7 +107,7 @@ public class UserController {
     }
 
     /**
-     * 逻辑删除
+     * 逻辑删除(数据库)
      */
     @DeleteMapping("/delete")
     public Result deleteUserById(@RequestParam Long userid) {

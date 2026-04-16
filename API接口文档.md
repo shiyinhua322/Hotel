@@ -720,7 +720,7 @@ satoken: xt_xxxxxxxxxxxx
 
 ## Postman 测试集合导入格式
 
-可以将以下内容保存为 `.json` 文件，然后导入到 Postman：
+可以将以下内容保存为 `酒店管理系统API.postman_collection.json` 文件，然后导入到 Postman：
 
 ```json
 {
@@ -736,32 +736,216 @@ satoken: xt_xxxxxxxxxxxx
           "name": "用户注册",
           "request": {
             "method": "POST",
-            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"username\": \"testuser\",\n  \"nickname\": \"测试用户\",\n  \"password\": \"123456\",\n  \"email\": \"test@example.com\",\n  \"phone\": \"13800138000\",\n  \"identity\": \"user\"\n}"
             },
-            "url": {"raw": "http://localhost:8088/auth/register", "protocol": "http", "host": ["localhost"], "port": "8088", "path": ["auth", "register"]}
+            "url": {
+              "raw": "http://localhost:8088/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["auth", "register"]
+            }
           }
         },
         {
           "name": "用户登录",
           "request": {
             "method": "POST",
-            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"123456\",\n  \"identity\": \"user\"\n}"
             },
-            "url": {"raw": "http://localhost:8088/auth/login", "protocol": "http", "host": ["localhost"], "port": "8088", "path": ["auth", "login"]}
+            "url": {
+              "raw": "http://localhost:8088/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["auth", "login"]
+            }
           }
         },
         {
           "name": "用户注销",
           "request": {
             "method": "GET",
-            "header": [{"key": "satoken", "value": "xt_token_here"}],
-            "url": {"raw": "http://localhost:8088/auth/logout", "protocol": "http", "host": ["localhost"], "port": "8088", "path": ["auth", "logout"]}
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/auth/logout",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["auth", "logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "用户管理",
+      "item": [
+        {
+          "name": "查询所有用户",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/user/test",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["user", "test"]
+            }
+          }
+        },
+        {
+          "name": "分页查询用户",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/user/page?current=1&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["user", "page"],
+              "query": [
+                {"key": "current", "value": "1"},
+                {"key": "size", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "模糊查询用户",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/user/userPage?current=1&size=10&username=test",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["user", "userPage"],
+              "query": [
+                {"key": "current", "value": "1"},
+                {"key": "size", "value": "10"},
+                {"key": "username", "value": "test"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "根据ID获取用户",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/user/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["user", "1"]
+            }
+          }
+        },
+        {
+          "name": "修改用户信息",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"newusername\",\n  \"nickname\": \"新昵称\",\n  \"email\": \"newemail@example.com\",\n  \"phone\": \"13900139000\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8088/user/edit?id=1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["user", "edit"],
+              "query": [
+                {"key": "id", "value": "1"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "修改用户密码",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/user/userPasswordUpdate?id=1&password=newpassword123",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["user", "userPasswordUpdate"],
+              "query": [
+                {"key": "id", "value": "1"},
+                {"key": "password", "value": "newpassword123"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "逻辑删除用户",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/user/delete?userid=1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["user", "delete"],
+              "query": [
+                {"key": "userid", "value": "1"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "业务删除用户",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/user/editDeleted?userid=1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["user", "editDeleted"],
+              "query": [
+                {"key": "userid", "value": "1"}
+              ]
+            }
           }
         }
       ]
@@ -779,9 +963,68 @@ satoken: xt_xxxxxxxxxxxx
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"roomNumber\": \"101\",\n  \"roomType\": \"标准间\",\n  \"price\": 299.00,\n  \"capacity\": 2,\n  \"description\": \"舒适标准间\",\n  \"status\": 1,\n  \"merchantId\": 1\n}"
+              "raw": "{\n  \"roomNumber\": \"101\",\n  \"roomType\": \"标准间\",\n  \"price\": 299.00,\n  \"capacity\": 2,\n  \"description\": \"舒适标准间，配备双人床\",\n  \"images\": \"https://example.com/room1.jpg\",\n  \"facilities\": \"WiFi,空调,电视,独立卫生间\",\n  \"status\": 1,\n  \"merchantId\": 1,\n  \"address\": \"北京市朝阳区xxx路xxx号\"\n}"
             },
-            "url": {"raw": "http://localhost:8088/room/add", "protocol": "http", "host": ["localhost"], "port": "8088", "path": ["room", "add"]}
+            "url": {
+              "raw": "http://localhost:8088/room/add",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["room", "add"]
+            }
+          }
+        },
+        {
+          "name": "更新房间信息",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"roomNumber\": \"101\",\n  \"roomType\": \"豪华标准间\",\n  \"price\": 399.00,\n  \"capacity\": 2,\n  \"description\": \"升级豪华标准间\",\n  \"status\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8088/room/update",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["room", "update"]
+            }
+          }
+        },
+        {
+          "name": "删除房间",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/room/delete/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["room", "delete", "1"]
+            }
+          }
+        },
+        {
+          "name": "根据ID获取房间",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/room/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["room", "1"]
+            }
           }
         },
         {
@@ -794,9 +1037,104 @@ satoken: xt_xxxxxxxxxxxx
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"current\": 1,\n  \"size\": 10\n}"
+              "raw": "{\n  \"current\": 1,\n  \"size\": 10,\n  \"roomType\": \"标准间\",\n  \"minPrice\": 200.00,\n  \"maxPrice\": 500.00,\n  \"status\": 1\n}"
             },
-            "url": {"raw": "http://localhost:8088/room/page", "protocol": "http", "host": ["localhost"], "port": "8088", "path": ["room", "page"]}
+            "url": {
+              "raw": "http://localhost:8088/room/page",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["room", "page"]
+            }
+          }
+        },
+        {
+          "name": "根据商家ID获取房间",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/room/merchant/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["room", "merchant", "1"]
+            }
+          }
+        },
+        {
+          "name": "根据状态获取房间",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/room/status/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["room", "status", "1"]
+            }
+          }
+        },
+        {
+          "name": "更新房间状态",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/room/status/update?id=1&status=2",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["room", "status", "update"],
+              "query": [
+                {"key": "id", "value": "1"},
+                {"key": "status", "value": "2"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "多条件搜索房间",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomNumber\": \"101\",\n  \"roomType\": \"标准间\",\n  \"minPrice\": 200.00,\n  \"maxPrice\": 500.00,\n  \"capacity\": 2,\n  \"status\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8088/room/search",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["room", "search"]
+            }
+          }
+        },
+        {
+          "name": "获取所有房间列表",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "satoken", "value": "xt_token_here"}
+            ],
+            "url": {
+              "raw": "http://localhost:8088/room/list",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8088",
+              "path": ["room", "list"]
+            }
           }
         }
       ]
@@ -804,6 +1142,13 @@ satoken: xt_xxxxxxxxxxxx
   ]
 }
 ```
+
+**导入步骤：**
+1. 复制上面的JSON内容
+2. 保存为 `酒店管理系统API.postman_collection.json` 文件
+3. 打开 Postman，点击 Import
+4. 选择该文件导入
+5. 导入后需要将 `xt_token_here` 替换为实际的token值
 
 ---
 
