@@ -28,35 +28,33 @@ public class UserImpl extends ServiceImpl<UserMapper, User> implements UserServi
 
     @Override
     public boolean register(RegisterDTO registerDTO) {
-        // 检查用户名是否已存在
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", registerDTO.getUsername());
         if (this.count(queryWrapper) > 0) {
             throw new RuntimeException("用户名已存在");
         }
-        // 创建新用户
         User user = new User();
         user.setUsername(registerDTO.getUsername());
-        user.setPassword(DigestUtils.md5DigestAsHex(registerDTO.getPassword().getBytes()));
+        user.setNickname(registerDTO.getNickname());
+        user.setPassword(registerDTO.getPassword());
         user.setEmail(registerDTO.getEmail());
         user.setPhone(registerDTO.getPhone());
+        user.setIdentity(registerDTO.getIdentity());
         return this.save(user);
     }
 
     @Override
     public User login(LoginDTO loginDTO) {
-        // 查询用户
         QueryWrapper<User> queryWrapper1 = new QueryWrapper<>();
         queryWrapper1.eq("username", loginDTO.getUsername());
+        queryWrapper1.eq("identity", loginDTO.getIdentity());
         User user = this.getOne(queryWrapper1);
         if (user == null) {
-            throw new RuntimeException("用户不存在");
+            throw new RuntimeException("用户名或身份错误");
         }
-        //查询用户是否已删除
         if (user.getDeleted() == 1) {
             throw new RuntimeException("用户已删除");
         }
-        // 验证密码
         String md5Password = DigestUtils.md5DigestAsHex(loginDTO.getPassword().getBytes());
         if (!md5Password.equals(user.getPassword())) {
             throw new RuntimeException("密码错误");
