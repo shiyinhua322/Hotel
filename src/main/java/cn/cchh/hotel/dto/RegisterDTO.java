@@ -20,4 +20,6 @@ public class RegisterDTO {
     private String email;
 
     private String phone;
+    
+    private String avatarUrl;
 }
