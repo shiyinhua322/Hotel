@@ -21,6 +21,8 @@ public class User {
     private String password;
     
     private String avatarUrl;
+
+    private String nickname;
     
     @Email(message = "邮箱格式不正确")
     private String email;
@@ -29,4 +31,12 @@ public class User {
     private String phone;
     
     private String identity;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date updateTime;
+
+    private int deleted;
 }
