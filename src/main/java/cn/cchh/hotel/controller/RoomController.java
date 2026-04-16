@@ -14,6 +14,10 @@ import java.util.List;
 
 /**
  * 房间管理控制器
+ * 提供房间管理的 RESTful API 接口
+ * 
+ * @author Hotel System
+ * @since 2026-04-16
  */
 @RestController
 @RequestMapping("/room")
@@ -24,6 +28,10 @@ public class RoomController {
 
     /**
      * 添加房间
+     * POST /room/add
+     *
+     * @param roomDTO 房间信息（JSON格式）
+     * @return 操作结果
      */
     @PostMapping("/add")
     public Result addRoom(@Validated @RequestBody RoomDTO roomDTO) {
@@ -41,6 +49,10 @@ public class RoomController {
 
     /**
      * 更新房间信息
+     * POST /room/update
+     *
+     * @param roomDTO 房间信息（必须包含房间ID）
+     * @return 操作结果
      */
     @PostMapping("/update")
     public Result updateRoom(@Validated @RequestBody RoomDTO roomDTO) {
@@ -57,7 +69,11 @@ public class RoomController {
     }
 
     /**
-     * 删除房间
+     * 删除房间（逻辑删除）
+     * DELETE /room/delete/{id}
+     *
+     * @param id 房间ID
+     * @return 操作结果
      */
     @DeleteMapping("/delete/{id}")
     public Result deleteRoom(@PathVariable Long id) {
@@ -74,7 +90,11 @@ public class RoomController {
     }
 
     /**
-     * 根据ID获取房间信息
+     * 根据ID获取房间详细信息
+     * GET /room/{id}
+     *
+     * @param id 房间ID
+     * @return 房间信息
      */
     @GetMapping("/{id}")
     public Result<Room> getRoomById(@PathVariable Long id) {
@@ -92,6 +112,10 @@ public class RoomController {
 
     /**
      * 分页查询房间
+     * POST /room/page
+     *
+     * @param queryDTO 查询条件（包含分页参数和筛选条件）
+     * @return 分页结果
      */
     @PostMapping("/page")
     public Result<Page<Room>> getRoomPage(@RequestBody RoomQueryDTO queryDTO) {
@@ -104,7 +128,11 @@ public class RoomController {
     }
 
     /**
-     * 根据商家ID获取房间列表
+     * 根据商家ID获取该商家的所有房间
+     * GET /room/merchant/{merchantId}
+     *
+     * @param merchantId 商家ID
+     * @return 房间列表
      */
     @GetMapping("/merchant/{merchantId}")
     public Result<List<Room>> getRoomsByMerchantId(@PathVariable Long merchantId) {
@@ -118,6 +146,10 @@ public class RoomController {
 
     /**
      * 根据状态获取房间列表
+     * GET /room/status/{status}
+     *
+     * @param status 房间状态（0-不可用，1-可用，2-已预订，3-维修中）
+     * @return 房间列表
      */
     @GetMapping("/status/{status}")
     public Result<List<Room>> getRoomsByStatus(@PathVariable Integer status) {
@@ -131,6 +163,11 @@ public class RoomController {
 
     /**
      * 更新房间状态
+     * POST /room/status/update?id=1&status=2
+     *
+     * @param id 房间ID
+     * @param status 新状态
+     * @return 操作结果
      */
     @PostMapping("/status/update")
     public Result updateRoomStatus(@RequestParam Long id, @RequestParam Integer status) {
@@ -147,7 +184,11 @@ public class RoomController {
     }
 
     /**
-     * 搜索房间（多条件）
+     * 多条件搜索房间
+     * POST /room/search
+     *
+     * @param queryDTO 搜索条件（可包含房间号、类型、价格区间、地址等）
+     * @return 房间列表
      */
     @PostMapping("/search")
     public Result<List<Room>> searchRooms(@RequestBody RoomQueryDTO queryDTO) {
@@ -160,7 +201,10 @@ public class RoomController {
     }
 
     /**
-     * 获取所有房间列表
+     * 获取所有房间列表（不分页，最多1000条）
+     * GET /room/list
+     *
+     * @return 房间列表
      */
     @GetMapping("/list")
     public Result<List<Room>> getAllRooms() {
