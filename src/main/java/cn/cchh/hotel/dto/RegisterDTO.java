@@ -13,7 +13,6 @@ public class RegisterDTO {
     @NotBlank(message = "用户名不能为空")
     private String username;
 
-    @NotBlank(message = "昵称不能为空")
     private String nickname;
 
     @NotBlank(message = "密码不能为空")
@@ -24,5 +23,7 @@ public class RegisterDTO {
 
     private String phone;
     
+    @NotBlank(message = "用户身份不能为空")
     private String identity;
+    1
 }
