@@ -36,7 +36,7 @@ public class UserImpl extends ServiceImpl<UserMapper, User> implements UserServi
         User user = new User();
         user.setUsername(registerDTO.getUsername());
         user.setNickname(registerDTO.getNickname());
-        user.setPassword(registerDTO.getPassword());
+        user.setPassword(DigestUtils.md5DigestAsHex(registerDTO.getPassword().getBytes()));
         user.setEmail(registerDTO.getEmail());
         user.setPhone(registerDTO.getPhone());
         user.setIdentity(registerDTO.getIdentity());
