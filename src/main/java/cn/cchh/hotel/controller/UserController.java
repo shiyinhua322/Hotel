@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 @RestController
-@RequestMapping("/sys_user")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -65,7 +65,7 @@ public class UserController {
     }
 
     /**
-     * 用户修改
+     * 用户信息修改
      */
     @PostMapping("/edit")
     public Result userUpdate(Long id,@RequestBody RegisterDTO userDto) {
@@ -75,6 +75,7 @@ public class UserController {
         try {
             User user = new User();
             user.setId(id);
+            user.setNickname(userDto.getNickname());
             user.setEmail(userDto.getEmail());
             user.setUsername(userDto.getUsername());
             user.setPhone(userDto.getPhone());
@@ -89,7 +90,7 @@ public class UserController {
         }
     }
     /**
-     * 用户修改
+     * 用户密码修改
      */
     @PostMapping("/userPasswordUpdate")
     public Result userUpdate(@RequestParam Long id,@RequestParam String password) {
