@@ -255,7 +255,7 @@ public class RoomImpl extends ServiceImpl<RoomMapper, Room> implements RoomServi
             queryWrapper.eq("merchant_id", queryDTO.getMerchantId());
         }
         
-        // 地址模糊查询1
+        // 地址模糊查询2
         if (StringUtils.hasText(queryDTO.getAddress())) {
             queryWrapper.like("address", queryDTO.getAddress());
         }
