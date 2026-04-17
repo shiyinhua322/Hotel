@@ -112,22 +112,6 @@ public class RoomImpl extends ServiceImpl<RoomMapper, Room> implements RoomServi
         updateWrapper.set("update_time", LocalDateTime.now()); // 更新更新时间
         return this.update(updateWrapper);
     }
-
-    /**
-     * 根据ID获取房间信息
-     * 只返回未删除的房间
-     *
-     * @param id 房间ID
-     * @return 房间信息，不存在或已删除则返回 null
-     */
-    @Override
-    public Room getRoomById(Long id) {
-        QueryWrapper<Room> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id", id);
-        queryWrapper.eq("deleted", 0); // 只查询未删除的房间
-        return this.getOne(queryWrapper);
-    }
-
     /**
      * 分页查询房间
      * 支持多条件筛选，按创建时间倒序排列

@@ -90,27 +90,6 @@ public class RoomController {
     }
 
     /**
-     * 根据ID获取房间详细信息
-     * GET /room/{id}
-     *
-     * @param id 房间ID
-     * @return 房间信息
-     */
-    @GetMapping("/{id}")
-    public Result<Room> getRoomById(@PathVariable Long id) {
-        try {
-            Room room = roomService.getRoomById(id);
-            if (room != null) {
-                return Result.success("查询成功", room);
-            } else {
-                return Result.error("房间不存在");
-            }
-        } catch (Exception e) {
-            return Result.error(e.getMessage());
-        }
-    }
-
-    /**
      * 分页查询房间
      * POST /room/page
      *
