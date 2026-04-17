@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * 房型DTO
  */
@@ -11,24 +13,45 @@ import lombok.Data;
 public class RoomTypeDTO {
 
     /**
-     * 房型ID（更新时必填）
+     * 房间类型ID（更新时必填）
      */
-    private Long id;
+    private Integer typeId;
 
     /**
-     * 房型名称
+     * 房间类型名称
      */
-    @NotBlank(message = "房型名称不能为空")
+    @NotBlank(message = "房间类型名称不能为空")
     private String typeName;
 
     /**
-     * 房型最大人数
+     * 价格（元/晚）
      */
-    @NotNull(message = "房型最大人数不能为空")
-    private Integer capacity;
+    @NotNull(message = "价格不能为空")
+    private BigDecimal price;
 
     /**
-     * 业务删除标识（1-未删除，0-已删除）
+     * 房间总数
      */
-    private Integer deleted;
+    @NotNull(message = "房间总数不能为空")
+    private Integer totalRooms;
+
+    /**
+     * 简介
+     */
+    private String intro;
+
+    /**
+     * 封面图URL
+     */
+    private String coverUrl;
+
+    /**
+     * 详细描述/设施信息
+     */
+    private String detail;
+
+    /**
+     * 状态：0-上架，1-下架
+     */
+    private Integer status;
 }

@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 /**
  * 房型服务实现类
  */
@@ -27,7 +29,6 @@ public class RoomTypeServiceImpl extends ServiceImpl<RoomTypeMapper, RoomType> i
         // 检查是否已存在相同名称的房型
         QueryWrapper<RoomType> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("type_name", roomTypeDTO.getTypeName());
-        queryWrapper.eq("deleted", 1);
         RoomType existRoomType = this.getOne(queryWrapper);
         if (existRoomType != null) {
             throw new RuntimeException("该房型名称已存在");
@@ -35,8 +36,14 @@ public class RoomTypeServiceImpl extends ServiceImpl<RoomTypeMapper, RoomType> i
 
         RoomType roomType = new RoomType();
         roomType.setTypeName(roomTypeDTO.getTypeName());
-        roomType.setCapacity(roomTypeDTO.getCapacity());
-        roomType.setDeleted(1);
+        roomType.setPrice(roomTypeDTO.getPrice());
+        roomType.setTotalRooms(roomTypeDTO.getTotalRooms());
+        roomType.setIntro(roomTypeDTO.getIntro());
+        roomType.setCoverUrl(roomTypeDTO.getCoverUrl());
+        roomType.setDetail(roomTypeDTO.getDetail());
+        roomType.setStatus(roomTypeDTO.getStatus() != null ? roomTypeDTO.getStatus() : 0);
+        roomType.setCreateTime(LocalDateTime.now());
+        roomType.setUpdateTime(LocalDateTime.now());
         return this.save(roomType);
     }
 
@@ -48,22 +55,27 @@ public class RoomTypeServiceImpl extends ServiceImpl<RoomTypeMapper, RoomType> i
      */
     @Override
     public boolean updateRoomType(RoomTypeDTO roomTypeDTO) {
-        if (roomTypeDTO.getId() == null) {
+        if (roomTypeDTO.getTypeId() == null) {
             throw new RuntimeException("房型ID不能为空");
         }
 
-        RoomType existRoomType = this.getById(roomTypeDTO.getId());
+        RoomType existRoomType = this.getById(roomTypeDTO.getTypeId());
         if (existRoomType == null) {
             throw new RuntimeException("房型不存在");
         }
 
         RoomType roomType = new RoomType();
-        roomType.setId(roomTypeDTO.getId());
+        roomType.setTypeId(roomTypeDTO.getTypeId());
         roomType.setTypeName(roomTypeDTO.getTypeName());
-        roomType.setCapacity(roomTypeDTO.getCapacity());
-        if (roomTypeDTO.getDeleted() != null) {
-            roomType.setDeleted(roomTypeDTO.getDeleted());
+        roomType.setPrice(roomTypeDTO.getPrice());
+        roomType.setTotalRooms(roomTypeDTO.getTotalRooms());
+        roomType.setIntro(roomTypeDTO.getIntro());
+        roomType.setCoverUrl(roomTypeDTO.getCoverUrl());
+        roomType.setDetail(roomTypeDTO.getDetail());
+        if (roomTypeDTO.getStatus() != null) {
+            roomType.setStatus(roomTypeDTO.getStatus());
         }
+        roomType.setUpdateTime(LocalDateTime.now());
 
         return this.updateById(roomType);
     }
@@ -81,10 +93,11 @@ public class RoomTypeServiceImpl extends ServiceImpl<RoomTypeMapper, RoomType> i
             throw new RuntimeException("房型不存在");
         }
         
-        // 业务删除，将deleted字段设置为0
+        // 业务删除，将status字段设置为1（下架）
         RoomType updateRoomType = new RoomType();
-        updateRoomType.setId(id);
-        updateRoomType.setDeleted(0);
+        updateRoomType.setTypeId(id.intValue());
+        updateRoomType.setStatus(1);
+        updateRoomType.setUpdateTime(LocalDateTime.now());
         return this.updateById(updateRoomType);
     }
 
@@ -99,9 +112,9 @@ public class RoomTypeServiceImpl extends ServiceImpl<RoomTypeMapper, RoomType> i
     public IPage<RoomType> queryRoomTypes(Integer pageNum, Integer pageSize) {
         Page<RoomType> page = new Page<>(pageNum, pageSize);
         QueryWrapper<RoomType> queryWrapper = new QueryWrapper<>();
-        // 只查询未删除的数据
-        queryWrapper.eq("deleted", 1);
-        queryWrapper.orderByDesc("id");
+        // 只查询上架状态的数据（status=0）
+        queryWrapper.eq("status", 0);
+        queryWrapper.orderByDesc("type_id");
         return this.page(page, queryWrapper);
     }
 
