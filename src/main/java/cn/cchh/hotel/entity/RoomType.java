@@ -25,7 +25,7 @@ public class RoomType {
      */
     private Integer capacity;
     /**
-     * 业务删除
+     * 业务删除（1-未删除，0-已删除）
      */
-    private Integer delete;
+    private Integer deleted;
 }
