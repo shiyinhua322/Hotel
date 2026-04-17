@@ -43,15 +43,6 @@ public interface RoomService extends IService<Room> {
      * @return 是否删除成功
      */
     boolean deleteRoom(Long id);
-
-    /**
-     * 根据ID获取房间详细信息
-     * 
-     * @param id 房间ID
-     * @return 房间信息，如果不存在或已删除则返回 null
-     */
-    Room getRoomById(Long id);
-
     /**
      * 分页查询房间（支持多条件筛选）
      * 
