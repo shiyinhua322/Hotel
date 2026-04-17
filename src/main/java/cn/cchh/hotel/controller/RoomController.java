@@ -104,7 +104,8 @@ public class RoomController {
             Page<Room> page = roomService.getRoomPage(
                 roomDTO.getCurrent(), 
                 roomDTO.getSize(), 
-                roomDTO.getRoomNumber(), 
+                roomDTO.getRoomNumber(),
+                roomDTO.getRoomName(),
                 roomDTO.getRoomType(), 
                 roomDTO.getMinPrice(), 
                 roomDTO.getMaxPrice(), 
@@ -189,7 +190,8 @@ public class RoomController {
                 roomDTO = new RoomDTO();
             }
             List<Room> rooms = roomService.searchRooms(
-                roomDTO.getRoomNumber(), 
+                roomDTO.getRoomNumber(),
+                roomDTO.getRoomName(),
                 roomDTO.getRoomType(), 
                 roomDTO.getMinPrice(), 
                 roomDTO.getMaxPrice(), 
@@ -213,7 +215,7 @@ public class RoomController {
     @GetMapping("/list")
     public Result<List<Room>> getAllRooms() {
         try {
-            Page<Room> page = roomService.getRoomPage(1, 1000, null, null, null, null, null, null, null, null);
+            Page<Room> page = roomService.getRoomPage(1, 1000, null, null, null, null, null, null, null, null, null);
             return Result.success("查询成功", page.getRecords());
         } catch (Exception e) {
             return Result.error(e.getMessage());

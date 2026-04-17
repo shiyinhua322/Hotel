@@ -28,6 +28,11 @@ public class Room {
     private String roomNumber;
 
     /**
+     * 房间专属名称（如：海景大床房、豪华套房A、阳光标准间等）
+     */
+    private String roomName;
+
+    /**
      * 房间类型（如：标准间、大床房、套房、豪华套房等）
      */
     private String roomType;

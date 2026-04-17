@@ -49,6 +49,7 @@ public interface RoomService extends IService<Room> {
      * @param current 当前页码
      * @param size 每页大小
      * @param roomNumber 房间号（模糊查询）
+     * @param roomName 房间专属名称（模糊查询）
      * @param roomType 房间类型（精确匹配）
      * @param minPrice 最低价格
      * @param maxPrice 最高价格
@@ -58,7 +59,7 @@ public interface RoomService extends IService<Room> {
      * @param address 地址（模糊查询）
      * @return 分页结果（包含房间列表和分页信息）
      */
-    Page<Room> getRoomPage(Integer current, Integer size, String roomNumber, 
+    Page<Room> getRoomPage(Integer current, Integer size, String roomNumber, String roomName,
                           String roomType, BigDecimal minPrice, BigDecimal maxPrice,
                           Integer capacity, Integer status, Long merchantId, String address);
 
@@ -91,6 +92,7 @@ public interface RoomService extends IService<Room> {
      * 搜索房间（支持多条件组合查询）
      * 
      * @param roomNumber 房间号（模糊查询）
+     * @param roomName 房间专属名称（模糊查询）
      * @param roomType 房间类型（精确匹配）
      * @param minPrice 最低价格
      * @param maxPrice 最高价格
@@ -100,7 +102,7 @@ public interface RoomService extends IService<Room> {
      * @param address 地址（模糊查询）
      * @return 符合条件的房间列表（按创建时间倒序）
      */
-    List<Room> searchRooms(String roomNumber, String roomType, BigDecimal minPrice, 
+    List<Room> searchRooms(String roomNumber, String roomName, String roomType, BigDecimal minPrice, 
                           BigDecimal maxPrice, Integer capacity, Integer status, 
                           Long merchantId, String address);
 }

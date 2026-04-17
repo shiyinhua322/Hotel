@@ -119,6 +119,7 @@ public class RoomImpl extends ServiceImpl<RoomMapper, Room> implements RoomServi
      * @param current 当前页码
      * @param size 每页大小
      * @param roomNumber 房间号（模糊查询）
+     * @param roomName 房间专属名称（模糊查询）
      * @param roomType 房间类型（精确匹配）
      * @param minPrice 最低价格
      * @param maxPrice 最高价格
@@ -129,14 +130,14 @@ public class RoomImpl extends ServiceImpl<RoomMapper, Room> implements RoomServi
      * @return 分页结果
      */
     @Override
-    public Page<Room> getRoomPage(Integer current, Integer size, String roomNumber,
+    public Page<Room> getRoomPage(Integer current, Integer size, String roomNumber, String roomName,
                                   String roomType, BigDecimal minPrice, BigDecimal maxPrice,
                                   Integer capacity, Integer status, Long merchantId, String address) {
         // 创建分页对象
         Page<Room> page = new Page<>(current != null ? current : 1, size != null ? size : 10);
         
         // 构建查询条件
-        QueryWrapper<Room> queryWrapper = buildQueryWrapper(roomNumber, roomType, minPrice,
+        QueryWrapper<Room> queryWrapper = buildQueryWrapper(roomNumber, roomName, roomType, minPrice,
                                                             maxPrice, capacity, status,
                                                             merchantId, address);
         queryWrapper.orderByDesc("create_time"); // 按创建时间倒序
@@ -196,9 +197,10 @@ public class RoomImpl extends ServiceImpl<RoomMapper, Room> implements RoomServi
 
     /**
      * 搜索房间（多条件组合查询）
-     * 支持房间号、类型、价格区间、容量、状态、商家、地址等多条件组合
+     * 支持房间号、房间名称、类型、价格区间、容量、状态、商家、地址等多条件组合
      *
      * @param roomNumber 房间号（模糊查询）
+     * @param roomName 房间专属名称（模糊查询）
      * @param roomType 房间类型（精确匹配）
      * @param minPrice 最低价格
      * @param maxPrice 最高价格
@@ -209,10 +211,10 @@ public class RoomImpl extends ServiceImpl<RoomMapper, Room> implements RoomServi
      * @return 符合条件的房间列表
      */
     @Override
-    public List<Room> searchRooms(String roomNumber, String roomType, BigDecimal minPrice,
+    public List<Room> searchRooms(String roomNumber, String roomName, String roomType, BigDecimal minPrice,
                                   BigDecimal maxPrice, Integer capacity, Integer status,
                                   Long merchantId, String address) {
-        QueryWrapper<Room> queryWrapper = buildQueryWrapper(roomNumber, roomType, minPrice,
+        QueryWrapper<Room> queryWrapper = buildQueryWrapper(roomNumber, roomName, roomType, minPrice,
                                                             maxPrice, capacity, status,
                                                             merchantId, address);
         queryWrapper.orderByDesc("create_time");
@@ -224,6 +226,7 @@ public class RoomImpl extends ServiceImpl<RoomMapper, Room> implements RoomServi
      * 根据各个查询参数动态构建查询条件
      * 
      * @param roomNumber 房间号
+     * @param roomName 房间专属名称
      * @param roomType 房间类型
      * @param minPrice 最低价格
      * @param maxPrice 最高价格
@@ -233,7 +236,7 @@ public class RoomImpl extends ServiceImpl<RoomMapper, Room> implements RoomServi
      * @param address 地址
      * @return 查询包装器
      */
-    private QueryWrapper<Room> buildQueryWrapper(String roomNumber, String roomType,
+    private QueryWrapper<Room> buildQueryWrapper(String roomNumber, String roomName, String roomType,
                                                  BigDecimal minPrice, BigDecimal maxPrice,
                                                  Integer capacity, Integer status,
                                                  Long merchantId, String address) {
@@ -242,12 +245,17 @@ public class RoomImpl extends ServiceImpl<RoomMapper, Room> implements RoomServi
 
         // 房间号模糊查询
         if (StringUtils.hasText(roomNumber)) {
-            queryWrapper.like("room_number", roomNumber);
+            queryWrapper.like("room_number", roomNumber.trim());
+        }
+        
+        // 房间专属名称模糊查询
+        if (StringUtils.hasText(roomName)) {
+            queryWrapper.like("room_name", roomName.trim());
         }
         
         // 房间类型精确匹配
         if (StringUtils.hasText(roomType)) {
-            queryWrapper.eq("room_type", roomType);
+            queryWrapper.eq("room_type", roomType.trim());
         }
         
         // 价格区间查询
@@ -275,7 +283,7 @@ public class RoomImpl extends ServiceImpl<RoomMapper, Room> implements RoomServi
         
         // 地址模糊查询
         if (StringUtils.hasText(address)) {
-            queryWrapper.like("address", address);
+            queryWrapper.like("address", address.trim());
         }
 
         return queryWrapper;

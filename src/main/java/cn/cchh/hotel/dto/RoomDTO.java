@@ -27,6 +27,11 @@ public class RoomDTO {
     private String roomNumber;
 
     /**
+     * 房间专属名称（可选，如：海景大床房、豪华套房A等）
+     */
+    private String roomName;
+
+    /**
      * 房间类型（新增/修改时必填，查询时可选）
      */
     @NotBlank(message = "房间类型不能为空", groups = {AddGroup.class, UpdateGroup.class})
