@@ -28,7 +28,7 @@ public class RoomTypeDTO {
     private Integer capacity;
 
     /**
-     * 业务删除标识（0-未删除，1-已删除）
+     * 业务删除标识（1-未删除，0-已删除）
      */
-    private Integer delete;
+    private Integer deleted;
 }

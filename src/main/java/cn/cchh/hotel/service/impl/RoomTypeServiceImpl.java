@@ -27,7 +27,7 @@ public class RoomTypeServiceImpl extends ServiceImpl<RoomTypeMapper, RoomType> i
         // 检查是否已存在相同名称的房型
         QueryWrapper<RoomType> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("type_name", roomTypeDTO.getTypeName());
-        queryWrapper.eq("delete", 0);
+        queryWrapper.eq("deleted", 1);
         RoomType existRoomType = this.getOne(queryWrapper);
         if (existRoomType != null) {
             throw new RuntimeException("该房型名称已存在");
@@ -36,7 +36,7 @@ public class RoomTypeServiceImpl extends ServiceImpl<RoomTypeMapper, RoomType> i
         RoomType roomType = new RoomType();
         roomType.setTypeName(roomTypeDTO.getTypeName());
         roomType.setCapacity(roomTypeDTO.getCapacity());
-        roomType.setDelete(0);
+        roomType.setDeleted(1);
         return this.save(roomType);
     }
 
@@ -61,8 +61,8 @@ public class RoomTypeServiceImpl extends ServiceImpl<RoomTypeMapper, RoomType> i
         roomType.setId(roomTypeDTO.getId());
         roomType.setTypeName(roomTypeDTO.getTypeName());
         roomType.setCapacity(roomTypeDTO.getCapacity());
-        if (roomTypeDTO.getDelete() != null) {
-            roomType.setDelete(roomTypeDTO.getDelete());
+        if (roomTypeDTO.getDeleted() != null) {
+            roomType.setDeleted(roomTypeDTO.getDeleted());
         }
 
         return this.updateById(roomType);
@@ -81,10 +81,10 @@ public class RoomTypeServiceImpl extends ServiceImpl<RoomTypeMapper, RoomType> i
             throw new RuntimeException("房型不存在");
         }
         
-        // 业务删除，将delete字段设置为1
+        // 业务删除，将deleted字段设置为0
         RoomType updateRoomType = new RoomType();
         updateRoomType.setId(id);
-        updateRoomType.setDelete(1);
+        updateRoomType.setDeleted(0);
         return this.updateById(updateRoomType);
     }
 
@@ -100,7 +100,7 @@ public class RoomTypeServiceImpl extends ServiceImpl<RoomTypeMapper, RoomType> i
         Page<RoomType> page = new Page<>(pageNum, pageSize);
         QueryWrapper<RoomType> queryWrapper = new QueryWrapper<>();
         // 只查询未删除的数据
-        queryWrapper.eq("delete", 0);
+        queryWrapper.eq("deleted", 1);
         queryWrapper.orderByDesc("id");
         return this.page(page, queryWrapper);
     }
