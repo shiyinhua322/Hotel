@@ -1,9 +1,7 @@
-
 package cn.cchh.hotel.controller;
 
 import cn.cchh.hotel.dto.Result;
 import cn.cchh.hotel.dto.RoomTypeDTO;
-import cn.cchh.hotel.dto.RoomTypeQueryDTO;
 import cn.cchh.hotel.entity.RoomType;
 import cn.cchh.hotel.service.RoomTypeService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -11,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 房型控制器
+ */
 @RestController
 @RequestMapping("/roomType")
 public class RoomTypeController {
@@ -19,7 +20,7 @@ public class RoomTypeController {
     private RoomTypeService roomTypeService;
 
     /**
-     * 创建房间类型
+     * 创建房型
      */
     @PostMapping("/create")
     public Result createRoomType(@Validated @RequestBody RoomTypeDTO roomTypeDTO) {
@@ -36,7 +37,7 @@ public class RoomTypeController {
     }
 
     /**
-     * 更新房间类型
+     * 更新房型
      */
     @PostMapping("/update")
     public Result updateRoomType(@Validated @RequestBody RoomTypeDTO roomTypeDTO) {
@@ -53,7 +54,7 @@ public class RoomTypeController {
     }
 
     /**
-     * 删除房间类型
+     * 删除房型
      */
     @GetMapping("/delete/{id}")
     public Result deleteRoomType(@PathVariable Long id) {
@@ -70,41 +71,14 @@ public class RoomTypeController {
     }
 
     /**
-     * 根据ID查询房间类型
+     * 分页查询房型
      */
-    @GetMapping("/detail/{id}")
-    public Result getRoomTypeById(@PathVariable Long id) {
-        try {
-            RoomType roomType = roomTypeService.getRoomTypeById(id);
-            return Result.success("查询成功", roomType);
-        } catch (Exception e) {
-            return Result.error(e.getMessage());
-        }
-    }
-
-    /**
-     * 分页查询房间类型
-     */
-    @PostMapping("/query")
-    public Result queryRoomTypes(@RequestBody RoomTypeQueryDTO queryDTO) {
-        try {
-            IPage<RoomType> page = roomTypeService.queryRoomTypes(queryDTO);
-            return Result.success("查询成功", page);
-        } catch (Exception e) {
-            return Result.error(e.getMessage());
-        }
-    }
-
-    /**
-     * 根据民宿ID查询房间类型列表
-     */
-    @GetMapping("/list/{homestayId}")
-    public Result getRoomTypesByHomestayId(
-            @PathVariable Long homestayId,
+    @GetMapping("/query")
+    public Result queryRoomTypes(
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "10") Integer pageSize) {
         try {
-            IPage<RoomType> page = roomTypeService.getRoomTypesByHomestayId(homestayId, pageNum, pageSize);
+            IPage<RoomType> page = roomTypeService.queryRoomTypes(pageNum, pageSize);
             return Result.success("查询成功", page);
         } catch (Exception e) {
             return Result.error(e.getMessage());

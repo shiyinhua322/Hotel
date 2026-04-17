@@ -1,38 +1,34 @@
-
 package cn.cchh.hotel.dto;
 
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
+/**
+ * 房型DTO
+ */
 @Data
 public class RoomTypeDTO {
 
+    /**
+     * 房型ID（更新时必填）
+     */
     private Long id;
 
-    @NotNull(message = "民宿ID不能为空")
-    private Long homestayId;
-
-    @NotBlank(message = "房间类型名称不能为空")
+    /**
+     * 房型名称
+     */
+    @NotBlank(message = "房型名称不能为空")
     private String typeName;
 
-    private String intro;
+    /**
+     * 房型最大人数
+     */
+    @NotNull(message = "房型最大人数不能为空")
+    private Integer capacity;
 
-    @NotNull(message = "价格不能为空")
-    @DecimalMin(value = "0.01", message = "价格必须大于0")
-    private BigDecimal price;
-
-    @NotNull(message = "房间总数不能为空")
-    private Integer totalRooms;
-
-    private Integer leftRooms;
-
-    private String coverUrl;
-
-    private String detail;
-
-    private String status;
+    /**
+     * 业务删除标识（0-未删除，1-已删除）
+     */
+    private Integer delete;
 }
