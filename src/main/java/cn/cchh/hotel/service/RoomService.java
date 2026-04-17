@@ -2,11 +2,11 @@
 package cn.cchh.hotel.service;
 
 import cn.cchh.hotel.dto.RoomDTO;
-import cn.cchh.hotel.dto.RoomQueryDTO;
 import cn.cchh.hotel.entity.Room;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -55,10 +55,21 @@ public interface RoomService extends IService<Room> {
     /**
      * 分页查询房间（支持多条件筛选）
      * 
-     * @param queryDTO 查询条件（包含房间号、类型、价格区间、分页参数等）
+     * @param current 当前页码
+     * @param size 每页大小
+     * @param roomNumber 房间号（模糊查询）
+     * @param roomType 房间类型（精确匹配）
+     * @param minPrice 最低价格
+     * @param maxPrice 最高价格
+     * @param capacity 容纳人数
+     * @param status 房间状态
+     * @param merchantId 商家ID
+     * @param address 地址（模糊查询）
      * @return 分页结果（包含房间列表和分页信息）
      */
-    Page<Room> getRoomPage(RoomQueryDTO queryDTO);
+    Page<Room> getRoomPage(Integer current, Integer size, String roomNumber, 
+                          String roomType, BigDecimal minPrice, BigDecimal maxPrice,
+                          Integer capacity, Integer status, Long merchantId, String address);
 
     /**
      * 根据商家ID获取该商家的所有房间列表
@@ -88,8 +99,17 @@ public interface RoomService extends IService<Room> {
     /**
      * 搜索房间（支持多条件组合查询）
      * 
-     * @param queryDTO 查询条件（可包含房间号、类型、价格区间、地址等）
+     * @param roomNumber 房间号（模糊查询）
+     * @param roomType 房间类型（精确匹配）
+     * @param minPrice 最低价格
+     * @param maxPrice 最高价格
+     * @param capacity 容纳人数
+     * @param status 房间状态
+     * @param merchantId 商家ID
+     * @param address 地址（模糊查询）
      * @return 符合条件的房间列表（按创建时间倒序）
      */
-    List<Room> searchRooms(RoomQueryDTO queryDTO);
+    List<Room> searchRooms(String roomNumber, String roomType, BigDecimal minPrice, 
+                          BigDecimal maxPrice, Integer capacity, Integer status, 
+                          Long merchantId, String address);
 }

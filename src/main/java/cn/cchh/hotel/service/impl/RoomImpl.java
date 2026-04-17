@@ -2,7 +2,6 @@
 package cn.cchh.hotel.service.impl;
 
 import cn.cchh.hotel.dto.RoomDTO;
-import cn.cchh.hotel.dto.RoomQueryDTO;
 import cn.cchh.hotel.entity.Room;
 import cn.cchh.hotel.mapper.RoomMapper;
 import cn.cchh.hotel.service.RoomService;
@@ -14,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -132,16 +132,29 @@ public class RoomImpl extends ServiceImpl<RoomMapper, Room> implements RoomServi
      * 分页查询房间
      * 支持多条件筛选，按创建时间倒序排列
      *
-     * @param queryDTO 查询条件
+     * @param current 当前页码
+     * @param size 每页大小
+     * @param roomNumber 房间号（模糊查询）
+     * @param roomType 房间类型（精确匹配）
+     * @param minPrice 最低价格
+     * @param maxPrice 最高价格
+     * @param capacity 容纳人数
+     * @param status 房间状态
+     * @param merchantId 商家ID
+     * @param address 地址（模糊查询）
      * @return 分页结果
      */
     @Override
-    public Page<Room> getRoomPage(RoomQueryDTO queryDTO) {
+    public Page<Room> getRoomPage(Integer current, Integer size, String roomNumber,
+                                  String roomType, BigDecimal minPrice, BigDecimal maxPrice,
+                                  Integer capacity, Integer status, Long merchantId, String address) {
         // 创建分页对象
-        Page<Room> page = new Page<>(queryDTO.getCurrent(), queryDTO.getSize());
+        Page<Room> page = new Page<>(current != null ? current : 1, size != null ? size : 10);
         
         // 构建查询条件
-        QueryWrapper<Room> queryWrapper = buildQueryWrapper(queryDTO);
+        QueryWrapper<Room> queryWrapper = buildQueryWrapper(roomNumber, roomType, minPrice,
+                                                            maxPrice, capacity, status,
+                                                            merchantId, address);
         queryWrapper.orderByDesc("create_time"); // 按创建时间倒序
         
         return this.page(page, queryWrapper);
@@ -201,63 +214,84 @@ public class RoomImpl extends ServiceImpl<RoomMapper, Room> implements RoomServi
      * 搜索房间（多条件组合查询）
      * 支持房间号、类型、价格区间、容量、状态、商家、地址等多条件组合
      *
-     * @param queryDTO 查询条件
+     * @param roomNumber 房间号（模糊查询）
+     * @param roomType 房间类型（精确匹配）
+     * @param minPrice 最低价格
+     * @param maxPrice 最高价格
+     * @param capacity 容纳人数
+     * @param status 房间状态
+     * @param merchantId 商家ID
+     * @param address 地址（模糊查询）
      * @return 符合条件的房间列表
      */
     @Override
-    public List<Room> searchRooms(RoomQueryDTO queryDTO) {
-        QueryWrapper<Room> queryWrapper = buildQueryWrapper(queryDTO);
+    public List<Room> searchRooms(String roomNumber, String roomType, BigDecimal minPrice,
+                                  BigDecimal maxPrice, Integer capacity, Integer status,
+                                  Long merchantId, String address) {
+        QueryWrapper<Room> queryWrapper = buildQueryWrapper(roomNumber, roomType, minPrice,
+                                                            maxPrice, capacity, status,
+                                                            merchantId, address);
         queryWrapper.orderByDesc("create_time");
         return this.list(queryWrapper);
     }
 
     /**
      * 构建动态查询条件
-     * 根据 RoomQueryDTO 中的非空字段动态构建查询条件
+     * 根据各个查询参数动态构建查询条件
      * 
-     * @param queryDTO 查询条件对象
+     * @param roomNumber 房间号
+     * @param roomType 房间类型
+     * @param minPrice 最低价格
+     * @param maxPrice 最高价格
+     * @param capacity 容纳人数
+     * @param status 房间状态
+     * @param merchantId 商家ID
+     * @param address 地址
      * @return 查询包装器
      */
-    private QueryWrapper<Room> buildQueryWrapper(RoomQueryDTO queryDTO) {
+    private QueryWrapper<Room> buildQueryWrapper(String roomNumber, String roomType,
+                                                 BigDecimal minPrice, BigDecimal maxPrice,
+                                                 Integer capacity, Integer status,
+                                                 Long merchantId, String address) {
         QueryWrapper<Room> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("deleted", 0); // 始终过滤已删除的房间
 
         // 房间号模糊查询
-        if (StringUtils.hasText(queryDTO.getRoomNumber())) {
-            queryWrapper.like("room_number", queryDTO.getRoomNumber());
+        if (StringUtils.hasText(roomNumber)) {
+            queryWrapper.like("room_number", roomNumber);
         }
         
         // 房间类型精确匹配
-        if (StringUtils.hasText(queryDTO.getRoomType())) {
-            queryWrapper.eq("room_type", queryDTO.getRoomType());
+        if (StringUtils.hasText(roomType)) {
+            queryWrapper.eq("room_type", roomType);
         }
         
         // 价格区间查询
-        if (queryDTO.getMinPrice() != null) {
-            queryWrapper.ge("price", queryDTO.getMinPrice()); // 大于等于最低价
+        if (minPrice != null) {
+            queryWrapper.ge("price", minPrice); // 大于等于最低价
         }
-        if (queryDTO.getMaxPrice() != null) {
-            queryWrapper.le("price", queryDTO.getMaxPrice()); // 小于等于最高价
+        if (maxPrice != null) {
+            queryWrapper.le("price", maxPrice); // 小于等于最高价
         }
         
         // 容纳人数查询（至少容纳多少人）
-        if (queryDTO.getCapacity() != null) {
-            queryWrapper.ge("capacity", queryDTO.getCapacity());
+        if (capacity != null) {
+            queryWrapper.ge("capacity", capacity);
         }
         
         // 状态精确匹配
-        if (queryDTO.getStatus() != null) {
-            queryWrapper.eq("status", queryDTO.getStatus());
+        if (status != null) {
+            queryWrapper.eq("status", status);
         }
         
         // 商家ID精确匹配
-        if (queryDTO.getMerchantId() != null) {
-            queryWrapper.eq("merchant_id", queryDTO.getMerchantId());
+        if (merchantId != null) {
+            queryWrapper.eq("merchant_id", merchantId);
         }
         
         // 地址模糊查询
-        if (StringUtils.hasText(queryDTO.getAddress())) {
-            queryWrapper.like("address", queryDTO.getAddress());
+        if (StringUtils.hasText(address)) {
+            queryWrapper.like("address", address);
         }
 
         return queryWrapper;
