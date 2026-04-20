@@ -47,8 +47,6 @@ public class GuestImpl extends ServiceImpl<GuestMapper, Guest> implements GuestS
 
         guest.setStatus(1);
         guest.setDeleted(0);
-        guest.setCreateTime(LocalDateTime.now());
-        guest.setUpdateTime(LocalDateTime.now());
 
         boolean saved = this.save(guest);
 
@@ -75,7 +73,6 @@ public class GuestImpl extends ServiceImpl<GuestMapper, Guest> implements GuestS
         updateWrapper.eq("id", guestId);
         updateWrapper.set("check_out_time", LocalDateTime.now());
         updateWrapper.set("status", 2);
-        updateWrapper.set("update_time", LocalDateTime.now());
 
         boolean updated = this.update(updateWrapper);
 
@@ -99,7 +96,6 @@ public class GuestImpl extends ServiceImpl<GuestMapper, Guest> implements GuestS
 
         Guest guest = new Guest();
         BeanUtils.copyProperties(guestDTO, guest);
-        guest.setUpdateTime(LocalDateTime.now());
 
         UpdateWrapper<Guest> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", guestDTO.getId());
@@ -113,7 +109,6 @@ public class GuestImpl extends ServiceImpl<GuestMapper, Guest> implements GuestS
         UpdateWrapper<Guest> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", id);
         updateWrapper.set("deleted", 1);
-        updateWrapper.set("update_time", LocalDateTime.now());
         return this.update(updateWrapper);
     }
 
@@ -138,7 +133,7 @@ public class GuestImpl extends ServiceImpl<GuestMapper, Guest> implements GuestS
             queryWrapper.eq("status", status);
         }
 
-        queryWrapper.orderByDesc("create_time");
+        queryWrapper.orderByDesc("id");
 
         return this.page(page, queryWrapper);
     }
@@ -161,7 +156,7 @@ public class GuestImpl extends ServiceImpl<GuestMapper, Guest> implements GuestS
             queryWrapper.eq("status", status);
         }
 
-        queryWrapper.orderByDesc("create_time");
+        queryWrapper.orderByDesc("id");
 
         return this.list(queryWrapper);
     }
@@ -179,7 +174,7 @@ public class GuestImpl extends ServiceImpl<GuestMapper, Guest> implements GuestS
         QueryWrapper<Guest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("status", 1);
         queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByDesc("check_in_time");
+        queryWrapper.orderByDesc("id");
         return this.list(queryWrapper);
     }
 
@@ -188,7 +183,7 @@ public class GuestImpl extends ServiceImpl<GuestMapper, Guest> implements GuestS
         QueryWrapper<Guest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("room_id", roomId);
         queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByDesc("create_time");
+        queryWrapper.orderByDesc("id");
         return this.list(queryWrapper);
     }
 
