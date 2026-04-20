@@ -25,8 +25,6 @@ public class Guest {
     
     private String gender;
     
-    private Integer age;
-    
     private String address;
     
     private Long roomId;
