@@ -1,5 +1,5 @@
 package cn.cchh.hotel.entity;
-1
+
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import java.time.LocalDateTime;
