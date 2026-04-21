@@ -1,5 +1,5 @@
 package cn.cchh.hotel.service.impl;
-
+1
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cn.cchh.hotel.entity.ConsumableApplication;
 import cn.cchh.hotel.mapper.ConsumableApplicationMapper;
