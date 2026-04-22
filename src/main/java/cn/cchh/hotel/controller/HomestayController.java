@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/homestay")
 public class HomestayController {
-
+//1
     @Autowired
     private HomestayService homestayService;
 

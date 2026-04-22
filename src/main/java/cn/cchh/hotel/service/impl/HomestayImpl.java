@@ -5,6 +5,7 @@ import cn.cchh.hotel.entity.Homestay;
 import cn.cchh.hotel.mapper.HomestayMapper;
 import cn.cchh.hotel.service.HomestayService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
  * 民宿服务实现类
  */
 @Service
-public class HomestayServiceImpl extends ServiceImpl<HomestayMapper, Homestay> implements HomestayService {
+public class HomestayImpl extends ServiceImpl<HomestayMapper, Homestay> implements HomestayService {
 
     /**
      * 创建民宿
@@ -24,7 +25,6 @@ public class HomestayServiceImpl extends ServiceImpl<HomestayMapper, Homestay> i
      */
     @Override
     public boolean createHomestay(HomestayDTO homestayDTO) {
-        // 检查是否已存在相同名称的民宿
         QueryWrapper<Homestay> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("name", homestayDTO.getName());
         queryWrapper.eq("deleted", 0);
@@ -58,7 +58,7 @@ public class HomestayServiceImpl extends ServiceImpl<HomestayMapper, Homestay> i
         }
 
         Homestay existHomestay = this.getById(homestayDTO.getId());
-        if (existHomestay == null) {
+        if (existHomestay == null || existHomestay.getDeleted() == 1) {
             throw new RuntimeException("民宿不存在");
         }
 
@@ -86,15 +86,14 @@ public class HomestayServiceImpl extends ServiceImpl<HomestayMapper, Homestay> i
     @Override
     public boolean deleteHomestay(Long id) {
         Homestay homestay = this.getById(id);
-        if (homestay == null) {
+        if (homestay == null || homestay.getDeleted() == 1) {
             throw new RuntimeException("民宿不存在");
         }
         
-        // 逻辑删除，将deleted字段设置为1
-        Homestay updateHomestay = new Homestay();
-        updateHomestay.setId(id);
-        updateHomestay.setDeleted(1);
-        return this.updateById(updateHomestay);
+        UpdateWrapper<Homestay> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", id);
+        updateWrapper.set("deleted", 1);
+        return this.update(updateWrapper);
     }
 
     /**
@@ -108,7 +107,6 @@ public class HomestayServiceImpl extends ServiceImpl<HomestayMapper, Homestay> i
     public IPage<Homestay> queryHomestays(Integer pageNum, Integer pageSize) {
         Page<Homestay> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Homestay> queryWrapper = new QueryWrapper<>();
-        // 只查询未删除的数据（deleted=0）
         queryWrapper.eq("deleted", 0);
         queryWrapper.orderByDesc("id");
         return this.page(page, queryWrapper);

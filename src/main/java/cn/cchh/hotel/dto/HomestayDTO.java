@@ -3,7 +3,7 @@ package cn.cchh.hotel.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
+//1
 /**
  * 民宿DTO
  */
