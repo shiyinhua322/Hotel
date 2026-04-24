@@ -92,7 +92,7 @@ public class UserController {
     /**
      * 用户密码修改
      */
-    @PostMapping("/userPasswordUpdate")
+    @PostMapping("/userPasswordUpdate   ")
     public Result userUpdate(@RequestParam Long id,@RequestParam String password) {
         try {
             boolean result = userService.updateUserPassword(id,password);

@@ -23,6 +23,10 @@ public class Result<T> {
         return new Result<>(200, "success", data);
     }
 
+    public static <T> Result<T> success() {
+        return new Result<>(200, "success", null);
+    }
+
     public static <T> Result<T> success(String msg, T data) {
         return new Result<>(200, msg, data);
     }
