@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 public class HomestayCertificationDTO {
-//1
+
     /**
      * 认证ID（更新时必填）
      */

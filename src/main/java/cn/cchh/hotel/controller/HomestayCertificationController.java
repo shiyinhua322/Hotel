@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/homestay-certification")
 public class HomestayCertificationController {
-//1
+
     @Autowired
     private HomestayCertificationService certificationService;
 

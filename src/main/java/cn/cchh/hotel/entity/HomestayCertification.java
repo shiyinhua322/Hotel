@@ -15,7 +15,7 @@ public class HomestayCertification {
     /**
      * 认证ID
      */
-    //1
+
     @TableId(type = IdType.AUTO)
     private Long id;
     
