@@ -4,7 +4,7 @@ import cn.cchh.hotel.dto.HomestayCertificationDTO;
 import cn.cchh.hotel.entity.HomestayCertification;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-
+//1
 /**
  * 民宿认证申请服务接口
  */

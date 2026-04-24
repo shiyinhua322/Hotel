@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
  */
 @Service
 public class HomestayCertificationServiceImpl extends ServiceImpl<HomestayCertificationMapper, HomestayCertification> implements HomestayCertificationService {
-
+//1
     /**
      * 创建民宿认证申请
      *
